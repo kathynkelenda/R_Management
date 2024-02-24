@@ -69,7 +69,6 @@ var transporter = nodemailer.createTransport({
    }
 });
 
-
 router.post('/forgotPassword',(req,res)=>{
     const user = req.body;
     query = "select email,password from user_ where email=?"
@@ -103,6 +102,49 @@ router.post('/forgotPassword',(req,res)=>{
             return res.status(500).json({error})
         }
     })
+})
+
+//Get la liste des utilisateurs à role user.
+router.get('/get',(req,res)=>{
+    var query ="select id,name,email,contactNumber,status from user_ where role='user' ";
+
+    connection.query(query,(error,results)=>{
+        if(!error){
+            return res.status(200).json(results);
+
+        }else{
+            return res.status(500).json({error});
+        }
+    })
+})
+
+//Update le status d'un utilisateur par son id
+router.patch('/update',(req,res)=>{
+    let user = req.body;
+    var query = "update user_ set status=? where id=?";
+
+    connexion.query(query,[user.status,user.id],(error,results)=>{
+        if(!error){
+            //Ds ce cas càd k'aucune MAJ n'a été faite
+            if(results.affectedRows == 0){
+                return res.status(404).json({message:"user id doesn't exist"})
+            }
+            return res.status(200).json({message:"User Updated Successfully"})
+
+        }else{
+            return res.status(500).json({error})
+        }
+    })
+})
+
+//Check token
+router.get('/checkToken',(req,res)=>{
+    return res.status(200).json({message:"true"})
+})
+
+//Reset password
+router.post('/changePassword',(req,res)=>{
+
 })
 
 
