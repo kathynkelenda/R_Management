@@ -4,11 +4,13 @@ const router = express.Router(); //Création du router
 const jsonwebtoken = require('jsonwebtoken');
 require('dotenv').config();
 const nodemailer = require('nodemailer');
+var auth = require('../services/authentication');
+var checkRole = require('../services/checkRole');
 
 //Inscription
 router.post('/signUp', (req, res) => {
     let user = req.body;
-    query = "select email, password,role,status from user_ where email=?"
+    query = "select email,password,role,status from user_ where email=?"
 
     connexion.query(query, [user.email], (error, results) => {
         if (!error) {
@@ -105,7 +107,7 @@ router.post('/forgotPassword',(req,res)=>{
 })
 
 //Get la liste des utilisateurs à role user.
-router.get('/get',(req,res)=>{
+router.get('/get',auth.authenticateToken,checkRole.checkRole,(req,res)=>{
     var query ="select id,name,email,contactNumber,status from user_ where role='user' ";
 
     connection.query(query,(error,results)=>{
@@ -119,7 +121,7 @@ router.get('/get',(req,res)=>{
 })
 
 //Update le status d'un utilisateur par son id
-router.patch('/update',(req,res)=>{
+router.patch('/update', auth.authenticateToken, checkRole.checkRole, (req,res)=>{
     let user = req.body;
     var query = "update user_ set status=? where id=?";
 
@@ -138,7 +140,7 @@ router.patch('/update',(req,res)=>{
 })
 
 //Check token
-router.get('/checkToken',(req,res)=>{
+router.get('/checkToken', auth.authenticateToken, (req,res)=>{
     return res.status(200).json({message:"true"})
 })
 
