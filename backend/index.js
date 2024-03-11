@@ -3,6 +3,7 @@ var cors = require('cors');
 const connection=require('./connection');
 const userRoute = require('./routes/user');
 const categoryRoute = require('./routes/category')
+const productRoute = require('./routes/product')
 const app = express();
 
 
@@ -11,5 +12,6 @@ app.use(express.urlencoded({extended: true}));//?NC
 app.use(express.json()); //?NC
 app.use('/user',userRoute);
 app.use('/category',categoryRoute);
+app.use('/product',productRoute);
 
 module.exports = app;

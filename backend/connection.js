@@ -1,5 +1,4 @@
 //Configuration de la connexion à la bdd
-
 const mysql= require('mysql');
 require('dotenv').config();
 
