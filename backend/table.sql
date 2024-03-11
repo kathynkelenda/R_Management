@@ -10,3 +10,9 @@ create table user_(
 );
 
 insert into user_(name,contactNumber,email,password,status,role) values('Admin','111-222-3333','admin@gmail.com','admin','true','admin')
+
+create table category(
+    id int NOT NULL AUTO_INCREMENT,
+    name varchar(255) NOT NULL,
+    primary key(id)
+)
