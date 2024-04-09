@@ -110,7 +110,4 @@ router.patch('/updateStatus',auth.authenticateToken,checkRole.checkRole,(req,res
 })
 
 
-
-
-
 module.exports = router;

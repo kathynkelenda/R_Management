@@ -55,6 +55,7 @@ router.post('/login', (req, res) => {
             }
         }
         else {
+            console.log("oups");
             return res.status(500).json({ error :error})
         }
     })
